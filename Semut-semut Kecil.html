@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isi: Semut-semut Kecil</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&display=swap');
+
+:root {
+    /* =========================================================
+       ATMOSFER
+       ========================================================= */
+
+    --latar-malam: #171513;
+    --kertas-malam: #211e1b;
+    --teks-malam: #e5ded4;
+    --teks-redup-malam: #91877c;
+    --garis-malam: rgba(229, 222, 212, 0.10);
+    --aksen-malam: #b9a58f;
+
+    --latar-pagi: #e8e4dc;
+    --kertas-pagi: #f5f1e9;
+    --teks-pagi: #2d2925;
+    --teks-redup-pagi: #81786f;
+    --garis-pagi: rgba(45, 41, 37, 0.10);
+    --aksen-pagi: #786d61;
+
+    --warna-latar: var(--latar-malam);
+    --warna-kertas: var(--kertas-malam);
+    --warna-teks: var(--teks-malam);
+    --warna-teks-redup: var(--teks-redup-malam);
+    --warna-garis: var(--garis-malam);
+    --warna-aksen: var(--aksen-malam);
+
+    /* =========================================================
+       TYPOGRAPHY
+       ========================================================= */
+
+    --font-narasi:
+        'Cormorant Garamond',
+        'Iowan Old Style',
+        'Baskerville',
+        'Times New Roman',
+        serif;
+
+    --font-ui:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        sans-serif;
+
+    --transisi-atmosfer: 2.8s cubic-bezier(.22, .61, .36, 1);
+
+    --durasi-fade-teks: 1.15s cubic-bezier(.22, .61, .36, 1);
+    --durasi-fade-penting: 1.8s cubic-bezier(.22, .61, .36, 1);
+}
+
+/* =============================================================
+   RESET
+   ============================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: clamp(3rem, 10vh, 8rem) 1.5rem 8rem;
+
+    color: var(--warna-teks);
+    background:
+        radial-gradient(
+            circle at 50% 5%,
+            rgba(255,255,255,0.025),
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(0,0,0,0.20),
+            transparent 45%
+        ),
+        var(--warna-latar);
+
+    font-family: var(--font-narasi);
+    line-height: 1.9;
+
+    transition:
+        background-color var(--transisi-atmosfer),
+        color var(--transisi-atmosfer);
+
+    overflow-x: hidden;
+}
+
+/* =============================================================
+   ATMOSPHERIC GRAIN
+   ============================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 100;
+
+    opacity: .035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+
+    mix-blend-mode: soft-light;
+}
+
+body::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 45%,
+            rgba(0,0,0,.18) 100%
+        );
+
+    opacity: .35;
+}
+
+/* =============================================================
+   PAGI
+   ============================================================= */
+   
+   body {
+    --cahaya: rgba(255,255,255,.025);
+}
+
+body.state-pagi {
+--cahaya: rgba(255,255,255,.65);
+    --warna-latar: var(--latar-pagi);
+    --warna-kertas: var(--kertas-pagi);
+    --warna-teks: var(--teks-pagi);
+    --warna-teks-redup: var(--teks-redup-pagi);
+    --warna-garis: var(--garis-pagi);
+    --warna-aksen: var(--aksen-pagi);
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(255,255,255,.65),
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(120,100,80,.08),
+            transparent 45%
+        ),
+        var(--warna-latar);
+}
+
+.teks-narasi.pagi {
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    letter-spacing: .04em;
+    margin-bottom: 3rem;
+}
+
+/* =============================================================
+   CONTAINER CERITA
+   ============================================================= */
+
+#kontainer-cerita {
+    position: relative;
+
+    width: min(100%, 680px);
+
+    padding:
+        clamp(3.5rem, 8vw, 6rem)
+        clamp(1.7rem, 7vw, 5rem)
+        clamp(3rem, 7vw, 5rem);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.025),
+            transparent 40%
+        ),
+        var(--warna-kertas);
+
+    border: 1px solid var(--warna-garis);
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.12),
+        0 4px 18px rgba(0,0,0,.06);
+
+    transition:
+        background-color var(--transisi-atmosfer),
+        border-color var(--transisi-atmosfer),
+        box-shadow var(--transisi-atmosfer);
+
+    isolation: isolate;
+}
+
+/* garis dekoratif kecil di atas */
+
+#kontainer-cerita .retakan {
+    position: absolute;
+    right: 1.2rem;
+    top: 15%;
+    width: 45px;
+    height: 110px;
+    opacity: .12;
+}
+
+#kontainer-cerita::before {
+    content: "";
+
+    position: absolute;
+
+    top: 1.5rem;
+    left: 50%;
+
+    width: 28px;
+    height: 1px;
+
+    transform: translateX(-50%);
+
+    background: var(--warna-aksen);
+
+    opacity: .35;
+}
+
+/* tekstur kertas */
+
+#kontainer-cerita::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: .025;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 3px,
+            rgba(0,0,0,.4) 4px
+        );
+
+    mix-blend-mode: multiply;
+
+    border-radius: inherit;
+}
+
+/* =============================================================
+   AREA CERITA
+   ============================================================= */
+
+#area-teks {
+    position: relative;
+    z-index: 2;
+
+    max-width: 35rem;
+    margin: 0 auto;
+
+    outline: none;
+
+    transition:
+        opacity .8s ease,
+        transform .9s cubic-bezier(.22,.61,.36,1),
+        filter .9s ease;
+}
+
+#area-pilihan {
+    position: relative;
+    z-index: 2;
+
+    max-width: 35rem;
+    margin: 0 auto;
+
+    transition:
+        opacity .5s ease,
+        transform .7s cubic-bezier(.22,.61,.36,1);
+}
+
+#area-teks.fade-out,
+#area-teks.fade-out {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(3px);
+}
+
+/* =============================================================
+   NARASI
+   ============================================================= */
+
+.teks-narasi {
+    margin-bottom: 1.45rem;
+
+    opacity: 0;
+
+    animation:
+        muncul-teks var(--durasi-fade-teks)
+        forwards;
+
+    font-family: var(--font-narasi);
+    font-size: clamp(1.18rem, 2vw, 1.3rem);
+
+    font-weight: 400;
+
+    line-height: 1.78;
+
+    letter-spacing: .005em;
+
+    color: var(--warna-teks);
+}
+
+.teks-narasi.penting {
+    margin-top: .3rem;
+    margin-bottom: 2rem;
+
+    font-size: clamp(1.35rem, 2.5vw, 1.55rem);
+
+    font-weight: 500;
+
+    line-height: 1.55;
+
+    letter-spacing: .015em;
+}
+
+/* =============================================================
+   ANIMASI TEKS
+   ============================================================= */
+
+@keyframes muncul-teks {
+    from {
+        opacity: 0;
+        transform: translateY(9px);
+        filter: blur(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* =============================================================
+   JEDA
+   ============================================================= */
+
+.jeda {
+    opacity: 0;
+
+    animation:
+        muncul-teks .6s ease-out forwards;
+}
+
+.jeda-normal {
+    height: 1rem;
+}
+
+.jeda-panjang {
+    height: 2rem;
+}
+
+.jeda-dramatis {
+    height: 3.4rem;
+}
+
+/* =============================================================
+   PILIHAN
+   ============================================================= */
+
+#area-pilihan {
+    margin-top: 3.5rem;
+
+    padding-top: 2rem;
+
+    border-top: 1px solid var(--warna-garis);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: .45rem;
+}
+
+#area-pilihan::before {
+    content: "";
+
+    display: block;
+
+    margin-bottom: .6rem;
+
+    font-family: var(--font-ui);
+
+    font-size: .58rem;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+
+    color: var(--warna-teks-redup);
+
+    opacity: .45;
+}
+
+#area-pilihan.menunggu::after {
+    content: "·";
+
+    display: block;
+
+    margin: 1rem auto 0;
+
+    color: var(--warna-teks-redup);
+
+    opacity: .15;
+
+    animation: kedip 2.8s ease-in-out infinite;
+
+    font-size: 1.4rem;
+}
+
+@keyframes kedip {
+    0%,100% {
+        opacity: .08;
+    }
+
+    50% {
+        opacity: .3;
+    }
+}
+
+/* =============================================================
+   BUTTON PILIHAN
+   ============================================================= */
+
+.pilihan {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: fit-content;
+    min-height: 48px;
+
+    padding: .55rem 0;
+
+    border: none;
+
+    background: none;
+
+    color: var(--warna-teks-redup);
+
+    font-family: var(--font-narasi);
+
+    font-size: 1.08rem;
+
+    font-style: italic;
+
+    line-height: 1.6;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    opacity: .65;
+
+    transition:
+        color .5s ease,
+        opacity .5s ease,
+        transform .5s cubic-bezier(.22,.61,.36,1);
+}
+
+.pilihan::before {
+    content: "→";
+
+    display: inline-block;
+
+    width: 0;
+
+    overflow: hidden;
+
+    margin-right: 0;
+
+    font-family: var(--font-ui);
+
+    font-size: .75rem;
+
+    font-style: normal;
+
+    color: var(--warna-aksen);
+
+    opacity: 0;
+
+    transition:
+        width .45s ease,
+        margin-right .45s ease,
+        opacity .45s ease;
+}
+
+.pilihan:hover,
+.pilihan:focus-visible {
+    color: var(--warna-teks);
+
+    opacity: 1;
+
+    transform: translateX(4px);
+
+    outline: none;
+}
+
+.pilihan:hover::before,
+.pilihan:focus-visible::before {
+    width: 1.2rem;
+
+    margin-right: .35rem;
+
+    opacity: .7;
+}
+
+/* pilihan pertama */
+
+.pilihan.pertama {
+    color: var(--warna-teks);
+    opacity: .85;
+}
+
+.pilihan.pertama::before {
+    width: 1.2rem;
+    margin-right: .35rem;
+    opacity: .55;
+}
+
+/* =============================================================
+   PILIHAN KHUSUS
+   ============================================================= */
+
+.pilihan-khusus {
+    margin-top: 1.2rem;
+
+    font-family: var(--font-ui);
+
+    font-size: .68rem;
+
+    font-style: normal;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    color: var(--warna-teks-redup);
+
+    opacity: .42;
+
+    transition:
+        opacity .5s ease,
+        transform .5s ease;
+}
+
+.pilihan-khusus:hover,
+.pilihan-khusus:focus-visible {
+    opacity: .75;
+
+    transform: translateX(4px);
+
+    outline: none;
+}
+
+/* =============================================================
+   SEMUT
+   ============================================================= */
+
+#semut-titik {
+    position: fixed;
+
+    bottom: 72px;
+    right: 90px;
+
+    width: 7px;
+    height: 4px;
+
+    background: var(--warna-teks);
+
+    border-radius: 50%;
+
+    opacity: 0;
+
+    filter:
+        blur(.15px)
+        drop-shadow(0 0 3px rgba(0,0,0,.25));
+
+    pointer-events: none;
+
+    z-index: 10;
+
+    transition:
+        opacity 5s ease,
+        background-color var(--transisi-atmosfer);
+}
+
+#semut-titik.muncul {
+    opacity: .32;
+
+    animation:
+        gerak-semut-kecil 50s
+        cubic-bezier(.37,0,.63,1)
+        infinite;
+}
+
+@keyframes gerak-semut-kecil {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    10% {
+        transform: translate(-30px,-4px);
+    }
+
+    20% {
+        transform: translate(-55px,3px);
+    }
+
+    30% {
+        transform: translate(-82px,-5px);
+    }
+
+    40% {
+        transform: translate(-110px,2px);
+    }
+
+    50% {
+        transform: translate(-92px,6px);
+    }
+
+    60% {
+        transform: translate(-65px,-3px);
+    }
+
+    70% {
+        transform: translate(-42px,2px);
+    }
+
+    80% {
+        transform: translate(-18px,-3px);
+    }
+
+    90% {
+        transform: translate(-5px,1px);
+    }
+
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+/* =============================================================
+   TAMAT
+   ============================================================= */
+
+.tamat {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+
+    color: var(--warna-teks-redup);
+
+    font-family: var(--font-narasi);
+
+    font-size: 1rem;
+
+    font-style: italic;
+
+    letter-spacing: .08em;
+
+    text-align: center;
+
+    opacity: 0;
+
+    animation:
+        muncul-teks 2s ease-out 1s
+        forwards;
+}
+
+.navigasi-bawah {
+    margin-top: 2rem;
+
+    text-align: center;
+
+    opacity: 0;
+
+    animation:
+        muncul-teks 2s ease-out 3.5s
+        forwards;
+}
+
+.navigasi-bawah button {
+    min-height: 44px;
+
+    padding: .5rem 1rem;
+
+    border: none;
+
+    background: none;
+
+    color: var(--warna-teks-redup);
+
+    font-family: var(--font-ui);
+
+    font-size: .65rem;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    opacity: .4;
+
+    transition:
+        opacity .5s ease,
+        letter-spacing .5s ease;
+}
+
+.navigasi-bawah button:hover,
+.navigasi-bawah button:focus-visible {
+    opacity: .75;
+
+    letter-spacing: .16em;
+
+    outline: none;
+}
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding:
+            1.2rem
+            .75rem
+            4rem;
+    }
+
+    body::after {
+        opacity: .2;
+    }
+
+    #kontainer-cerita {
+        width: 100%;
+
+        padding:
+            3.5rem
+            1.45rem
+            3rem;
+
+        border-radius: 2px;
+
+        box-shadow:
+            0 18px 45px rgba(0,0,0,.10);
+    }
+
+    #kontainer-cerita::before {
+        top: 1.5rem;
+    }
+
+    #area-teks,
+    #area-pilihan {
+        max-width: 100%;
+    }
+
+    .teks-narasi {
+        font-size: 1.12rem;
+        line-height: 1.78;
+
+        margin-bottom: 1.35rem;
+    }
+
+    .teks-narasi.penting {
+        font-size: 1.3rem;
+        line-height: 1.55;
+    }
+
+    .jeda-panjang {
+        height: 1.7rem;
+    }
+
+    .jeda-dramatis {
+        height: 2.5rem;
+    }
+
+    #area-pilihan {
+        margin-top: 3rem;
+    }
+
+    .pilihan {
+        width: 100%;
+
+        min-height: 52px;
+
+        font-size: 1rem;
+    }
+
+    .pilihan-khusus {
+        width: 100%;
+
+        min-height: 48px;
+
+        font-size: .63rem;
+    }
+
+    #semut-titik {
+        right: 28px;
+        bottom: 28px;
+
+        width: 5px;
+        height: 3px;
+    }
+
+    .tamat {
+        margin-top: 3.5rem;
+    }
+}
+
+/* =============================================================
+   TABLET / DESKTOP LEBIH BESAR
+   ============================================================= */
+
+@media (min-width: 1000px) {
+
+    body {
+        padding-top: clamp(5rem, 13vh, 9rem);
+    }
+
+    #kontainer-cerita {
+        transform: translateY(0);
+    }
+}
+
+/* =============================================================
+   ACCESSIBILITY
+   ============================================================= */
+
+:focus-visible {
+    outline: 1px solid var(--warna-aksen);
+    outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+
+        transition-duration: .01ms !important;
+    }
+
+    .teks-narasi,
+    .jeda,
+    .tamat,
+    .navigasi-bawah {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    #area-pilihan.menunggu::after {
+        content: none !important;
+    }
+
+    #semut-titik.muncul {
+        animation: none !important;
+        opacity: .2 !important;
+    }
+}
+
+body:not(.state-pagi)::before {
+    animation: napas-malam 14s ease-in-out infinite alternate;
+}
+
+@keyframes napas-malam {
+    from {
+        opacity: .025;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: .05;
+        transform: scale(1.04);
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div id="semut-titik" aria-hidden="true"></div>
+
+    <div id="kontainer-cerita">
+        <div id="area-teks" tabindex="-1" aria-live="polite"></div>
+        <div id="area-pilihan"></div>
+    </div>
+
+    <script>
+        // === KONSTANTA PENGAMATAN ===
+        const PENGAMATAN = {
+            KECIL_DI_TENGAH: 'melihat-yang-kecil-di-tengah',
+            SATU_PERGI: 'melihat-satu-yang-pergi',
+            KESERUPAAN: 'melihat-keserupaan'
+        };
+
+        // === STATE CERITA ===
+        const stateCerita = {
+            pilihan: [],
+            pengamatan: [],
+            urutan: [],
+            kunjungan: {},
+        };
+
+        function resetState() {
+            stateCerita.pilihan = [];
+            stateCerita.pengamatan = [];
+            stateCerita.urutan = [];
+            stateCerita.kunjungan = {};
+        }
+
+        function catatKunjungan(tema) {
+            if (!stateCerita.kunjungan[tema]) {
+                stateCerita.kunjungan[tema] = 0;
+            }
+            stateCerita.kunjungan[tema]++;
+        }
+
+        function kunjunganKe(tema) {
+            return stateCerita.kunjungan[tema] || 0;
+        }
+
+        function punyaPengamatan(nama) {
+            return stateCerita.pengamatan.includes(nama);
+        }
+
+        function catatPengamatan(nama) {
+            if (!stateCerita.pengamatan.includes(nama)) {
+                stateCerita.pengamatan.push(nama);
+            }
+        }
+
+        function jedaNormal() { return { tipe: 'jeda', level: 'normal' }; }
+        function jedaPanjang() { return { tipe: 'jeda', level: 'panjang' }; }
+        function jedaDramatis() { return { tipe: 'jeda', level: 'dramatis' }; }
+        function penting(teks) { return { tipe: 'penting', teks: teks }; }
+
+        // === DATA CERITA ===
+        const cerita = {
+            pembuka: {
+                teks: [
+                    "Dinding kamar ini tak putih bersih.",
+                    "Ada retakan lembut di dekat sudut.",
+                    "Di situlah mereka berjalan.",
+                    jedaPanjang(),
+                    "Jempolku masih menahan halaman yang sama.",
+                    "Buku di hadapanku terbuka. Sudah lama.",
+                    jedaNormal(),
+                    "Di luar kamar, ada suara. Bukan suara yang memanggil."
+                ],
+                pilihan: [
+                    { 
+                        teks: "Aku menghitung mereka.", 
+                        targetId: 'momen-hitung',
+                        pertama: true
+                    }
+                ]
+            },
+
+            'momen-hitung': {
+                teks: [
+                    "Satu. Dua. Tiga. Empat. Lima.",
+                    "Semut paling kecil berjalan di tengah.",
+                    "Dua yang lebih besar di depan dan belakangnya.",
+                    jedaNormal(),
+                    "Aku menggeser kursi sedikit.",
+                    "Lututku menyentuh sisi meja."
+                ],
+                pilihan: [
+                    { 
+                        teks: "Semut kecil itu mungkin anaknya.", 
+                        targetId: 'momen-keluarga',
+                        tema: 'keluarga'
+                    },
+                    { 
+                        teks: "Apakah mereka hendak menuju tempat yang sama?", 
+                        targetId: 'momen-teman',
+                        tema: 'teman'
+                    },
+                    { 
+                        teks: "Aku tak bisa membedakan mereka.", 
+                        targetId: 'momen-identitas',
+                        tema: 'identitas'
+                    }
+                ]
+            },
+
+            'momen-keluarga': {
+                masuk: function() {
+                    catatKunjungan('keluarga');
+                    if (kunjunganKe('keluarga') === 1) {
+                        catatPengamatan(PENGAMATAN.KECIL_DI_TENGAH);
+                    }
+                },
+                teks: function() {
+                    const kunjungan = kunjunganKe('keluarga');
+                    const teks = [];
+
+                    if (kunjungan === 1) {
+                        teks.push(
+                            "Semut kecil berjalan di tengah.",
+                            "Dua yang lebih besar di depan dan belakangnya.",
+                            jedaNormal(),
+                            "Mereka tak saling mendahului.",
+                            "Tak pula saling menunggu.",
+                            jedaNormal(),
+                            "Hanya berjalan dengan kecepatan yang sama."
+                        );
+                    } else if (kunjungan === 2) {
+                        if (punyaPengamatan(PENGAMATAN.SATU_PERGI)) {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Semut yang tadi keluar dari barisan belum kembali.",
+                                jedaNormal(),
+                                "Barisan itu terus berjalan.",
+                                jedaNormal(),
+                                "Arau aku salah menghitung?"
+                            );
+                        } else if (punyaPengamatan(PENGAMATAN.KESERUPAAN)) {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Aku tak yakin apakah mereka saling mengenal.",
+                                jedaNormal(),
+                                "Aku tak bisa membedakan mereka.",
+                                "Mereka tetap berjalan berdekatan."
+                            );
+                        } else {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Barisan itu masih sama.",
+                                "Semut kecil di tengah.",
+                                jedaNormal(),
+                                "Ah, leherku mulai pegal.",
+                                "Aku menopang dagu dengan tangan."
+                            );
+                        }
+                    } else {
+                        teks.push(
+                            "Aku melihat lagi.",
+                            "Barisan itu masih di sana.",
+                            jedaPanjang(),
+                            "Jempolku tak lagi menahan halaman itu.",
+                            "Aku tak ingat kapan kulepaskan."
+                        );
+                    }
+
+                    return teks;
+                },
+                pilihan: function() {
+                    const pilihan = [];
+                    const kunjungan = kunjunganKe('keluarga');
+
+                    pilihan.push({ 
+                        teks: "Andai satu hilang, apakah mereka tahu?", 
+                        targetId: 'momen-teman',
+                        tema: 'teman'
+                    });
+
+                    pilihan.push({ 
+                        teks: "Wajah siapa yang mereka cari kalau satu pergi?", 
+                        targetId: 'momen-identitas',
+                        tema: 'identitas'
+                    });
+
+                    if (kunjungan >= 2 || stateCerita.urutan.length >= 2) {
+                        pilihan.push({ 
+                            teks: "Aku berhenti bertanya.", 
+                            targetId: 'transisi-berhenti',
+                            tema: null,
+                            kelasKhusus: true
+                        });
+                    }
+
+                    return pilihan;
+                }
+            },
+
+            'momen-teman': {
+                masuk: function() {
+                    catatKunjungan('teman');
+                    if (kunjunganKe('teman') === 1) {
+                        catatPengamatan(PENGAMATAN.SATU_PERGI);
+                    }
+                },
+                teks: function() {
+                    const kunjungan = kunjunganKe('teman');
+                    const teks = [];
+
+                    if (kunjungan === 1) {
+                        teks.push(
+                            "Seekor semut keluar dari barisan.",
+                            "Ia berjalan ke arah yang berbeda.",
+                            jedaNormal(),
+                            "Semut lain tak mengejarnya."
+                        );
+
+                        if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
+                            teks.push(
+                                jedaNormal(),
+                                "Semmut paling kecil itu tak keluar dari barisan.",
+                                "Ia tetap di sana."
+                            );
+                        }
+
+                        teks.push(
+                            jedaNormal(),
+                            "Tak ada yang berbalik.",
+                            jedaNormal(),
+                            "Semut itu hilang di balik retakan dinding."
+                        );
+                    } else if (kunjungan === 2) {
+                        if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Mereka terus berjalan.",
+                                "Mengapa yang lain tak mengikutinya?",
+                                jedaNormal(),
+                                "Semut kecil itu masih di tengah.",
+                                jedaNormal(),
+                                "Mungkin ia melihat semut yang pergi itu.",
+                                "Mungkin tidak."
+                            );
+                        } else if (punyaPengamatan(PENGAMATAN.KESERUPAAN)) {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Tak bisa kubedakan",
+                                "mana yang pernah pergi dan mana yang tidak.",
+                                jedaNormal(),
+                                "Mereka semua berjalan ke arah yang sama.",
+                                "Kecuali satu. Atau bukan?"
+                            );
+                        } else {
+                            teks.push(
+                                "Aku melihat lagi.",
+                                "Tak ada yang keluar barisan.",
+                                jedaNormal(),
+                                "Mereka berjalan rapi.",
+                                jedaNormal(),
+                                "Dari luar, suara kendaraan lewat sekali.",
+                                "Lalu hilang."
+                            );
+                        }
+                    } else {
+                        teks.push(
+                            "Aku melihat lagi.",
+                            "Satu semut telah pergi.",
+                            "Semut lain masih di sana.",
+                            jedaPanjang(),
+                            "Aku tak lagi yakin apa yang tengah kulihat."
+                        );
+                    }
+
+                    return teks;
+                },
+                pilihan: function() {
+                    const pilihan = [];
+                    const kunjungan = kunjunganKe('teman');
+
+                    pilihan.push({ 
+                        teks: "Mereka mungkin berasal dari tempat yang sama.", 
+                        targetId: 'momen-keluarga',
+                        tema: 'keluarga'
+                    });
+
+                    pilihan.push({ 
+                        teks: "Semut yang tadi pergi itu di mana?", 
+                        targetId: 'momen-identitas',
+                        tema: 'identitas'
+                    });
+
+                    if (kunjungan >= 2 || stateCerita.urutan.length >= 2) {
+                        pilihan.push({ 
+                            teks: "Aku berhenti bertanya.", 
+                            targetId: 'transisi-berhenti',
+                            tema: null,
+                            kelasKhusus: true
+                        });
+                    }
+
+                    return pilihan;
+                }
+            },
+
+            'momen-identitas': {
+                masuk: function() {
+                    catatKunjungan('identitas');
+                    if (kunjunganKe('identitas') === 1) {
+                        catatPengamatan(PENGAMATAN.KESERUPAAN);
+                    }
+                },
+                teks: function() {
+                    const kunjungan = kunjunganKe('identitas');
+                    const teks = [];
+
+                    if (kunjungan === 1) {
+                        teks.push(
+                            "Dari dekat, mereka semua tampak sama.",
+                            "Kaki yang sama. Antena yang sama.",
+                            "Cara berjalan yang sama.",
+                            jedaNormal(),
+                            "Aku mendekatkan wajah ke dinding.",
+                            "Napasku membuat satu semut berhenti sejenak.",
+                            "Lalu berjalan lagi."
+                        );
+
+                        if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
+                            teks.push(
+                                jedaNormal(),
+                                "Aku mencari yang paling kecil tadi.",
+                                "Sial. Aku tak menemukannya."
+                            );
+                        }
+
+                        if (punyaPengamatan(PENGAMATAN.SATU_PERGI)) {
+                            teks.push(
+                                jedaNormal(),
+                                "Semut yang tadi keluar dari barisan belum kembali juga."
+                            );
+                        }
+                    } else if (kunjungan === 2) {
+                        if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH) && punyaPengamatan(PENGAMATAN.SATU_PERGI)) {
+                            teks.push(
+                                "Aku mendekat lagi.",
+                                "Sekarang aku ingat yang kecil.",
+                                "Dan aku ingat yang pergi.",
+                                jedaNormal(),
+                                "Tapi di dinding ini, aku tak tahu",
+                                "mana yang pernah kulihat sebelumnya.",
+                                jedaNormal(),
+                                "Mereka semua berjalan.",
+                                jedaDramatis(),
+                                penting("Aku mundur sedikit dari dinding.")
+                            );
+                        } else if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
+                            teks.push(
+                                "Aku mendekat lagi.",
+                                "Semut kecil tadi—masih kucari.",
+                                jedaNormal(),
+                                "Semua semut terlihat kecil dari sini.",
+                                jedaNormal(),
+                                "Aku menyentuh dinding dengan ujung jari.",
+                                "Satu semut naik ke kuku.",
+                                "Lalu turun lagi."
+                            );
+                        } else if (punyaPengamatan(PENGAMATAN.SATU_PERGI)) {
+                            teks.push(
+                                "Aku mendekat lagi.",
+                                "Semut yang pergi tadi tak kembali.",
+                                jedaNormal(),
+                                "Tapi ada satu yang berhenti di dekat retakan.",
+                                "Ia diam cukup lama.",
+                                "Lalu berjalan lagi."
+                            );
+                        } else {
+                            teks.push(
+                                "Aku mendekat lagi.",
+                                "Masih sama. Tak bisa dibedakan.",
+                                jedaNormal(),
+                                "Andai aku berada di antara mereka,",
+                                "bagaimana caranya mereka mengenaliku?",
+                                jedaNormal(),
+                                "Aku menurunkan tangan."
+                            );
+                        }
+                    } else {
+                        teks.push(
+                            "Aku mendekat lagi.",
+                            "Tak ada yang berubah.",
+                            jedaNormal(),
+                            "Semut-semut itu tetap berjalan.",
+                            jedaPanjang(),
+                            "Buku di meja masih terbuka.",
+                            "Aku tak ingat halaman berapa."
+                        );
+                    }
+
+                    return teks;
+                },
+                pilihan: function() {
+                    const pilihan = [];
+                    const kunjungan = kunjunganKe('identitas');
+
+                    pilihan.push({ 
+                        teks: "Mereka mungkin berasal dari tempat yang sama.", 
+                        targetId: 'momen-keluarga',
+                        tema: 'keluarga'
+                    });
+
+                    pilihan.push({ 
+                        teks: "Mereka mungkin memilih tetap bersama.", 
+                        targetId: 'momen-teman',
+                        tema: 'teman'
+                    });
+
+                    if (kunjungan >= 2 || stateCerita.urutan.length >= 2) {
+                        pilihan.push({ 
+                            teks: "Aku berhenti bertanya.", 
+                            targetId: 'transisi-berhenti',
+                            tema: null,
+                            kelasKhusus: true
+                        });
+                    }
+
+                    return pilihan;
+                }
+            },
+
+            'transisi-berhenti': {
+                teks: [
+                    "Aku berhenti bertanya.",
+                    jedaNormal(),
+                    "Tapi masih melihat.",
+                    jedaNormal(),
+                    "Semut-semut itu tetap berjalan.",
+                    jedaPanjang(),
+                    "Aku menopang dagu dengan tangan.",
+                    "Lampu meja mulai terasa hangat di kulit.",
+                    jedaNormal(),
+                    "Dari luar, suara kendaraan lewat sekali.",
+                    "Lalu hilang."
+                ],
+                pilihan: [
+                    { 
+                        teks: "Tidur.", 
+                        targetId: 'hari-kedua',
+                        tema: null
+                    },
+                    { 
+                        teks: "Menunggu sesuatu yang tak akan datang.", 
+                        targetId: 'transisi-menunggu',
+                        tema: null,
+                        kelasKhusus: true
+                    }
+                ]
+            },
+
+            'transisi-menunggu': {
+                teks: [
+                    "Tak ada yang datang.",
+                    jedaNormal(),
+                    "Semut-semut itu terus berjalan.",
+                    jedaNormal(),
+                    "Aku masih menunggu.",
+                    jedaPanjang(),
+                    "Lampu meja semakin hangat.",
+                    "Aku memindahkan tangan ke atas paha.",
+                    jedaNormal(),
+                    "Ketika kulihat lagi, barisan itu masih di sana."
+                ],
+                pilihan: [
+                    { 
+                        teks: "Tidur.", 
+                        targetId: 'hari-kedua',
+                        tema: null
+                    },
+                    { 
+                        teks: "Selesai.", 
+                        targetId: null,
+                        tema: null,
+                        kelasKhusus: true
+                    }
+                ]
+            },
+
+            'hari-kedua': {
+                teks: function() {
+                    const teks = [
+                        penting("Pagi."),
+                        "Tirai kubuka.",
+                        jedaPanjang(),
+                        "Dinding itu masih sama.",
+                        "Retakan di sudut.",
+                        "Cat yang mengelupas sedikit di dekat lantai.",
+                        jedaPanjang(),
+                        "Tak ada semut.",
+                        jedaDramatis(),
+                        "Aku mendekat.",
+                        jedaDramatis(),
+                        penting("Ada satu."),
+                        jedaDramatis(),
+                        penting("Ia berjalan sendiri sampai ke retakan. Berhenti sebentar. Lalu masuk.")
+                    ];
+
+                    if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH) && 
+                        punyaPengamatan(PENGAMATAN.SATU_PERGI) && 
+                        punyaPengamatan(PENGAMATAN.KESERUPAAN)) {
+                        teks.push(
+                            jedaPanjang(),
+                            "Dari ruang depan, tak ada suara.",
+                            jedaNormal(),
+                            "Aku melihat dinding itu.",
+                            "Retakan di sudut.",
+                            jedaNormal(),
+                            "Semut tadi tak ada lagi."
+                        );
+                    } else if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
+                        teks.push(
+                            jedaPanjang(),
+                            "Dari ruang depan, tak ada suara televisi.",
+                            jedaNormal(),
+                            "Aku kembali ke meja.",
+                            "Buku itu masih terbuka.",
+                            "Aku tak ingat pernah membalik halaman."
+                        );
+                    } else if (punyaPengamatan(PENGAMATAN.SATU_PERGI)) {
+                        teks.push(
+                            jedaPanjang(),
+                            "Di meja dekat pintu, ada dua gelas.",
+                            "Satu masih berisi air setengah.",
+                            "Satu kosong.",
+                            jedaNormal(),
+                            "Aku mengambil gelas yang kosong.",
+                            "Menimbangnya sebentar.",
+                            "Lalu meletakkannya kembali."
+                        );
+                    } else if (punyaPengamatan(PENGAMATAN.KESERUPAAN)) {
+                        teks.push(
+                            jedaPanjang(),
+                            "Seseorang memanggil namaku dari luar kamar.",
+                            jedaNormal(),
+                            "Aku tak menjawab.",
+                            jedaNormal(),
+                            "Aku melihat dinding itu.",
+                            "Retakan di sudut.",
+                            jedaNormal(),
+                            "Tak ada semut."
+                        );
+                    }
+
+                    return teks;
+                },
+                pilihan: function() {
+                    return [
+                        { 
+                            teks: "Selesai.", 
+                            targetId: null,
+                            tema: null,
+                            kelasKhusus: true
+                        }
+                    ];
+                },
+                setelahRender: function(delayKumulatif) {
+                    document.body.classList.add('state-pagi');
+
+                    const delaySemut = Math.max(2500, delayKumulatif * 1000 + 1200);
+                    const tokenSaatIni = renderToken;
+                    
+                    timerSemut = setTimeout(() => {
+                        if (tokenSaatIni !== renderToken) return;
+                        
+                        const semut = document.getElementById('semut-titik');
+                        if (semut) {
+                            semut.classList.add('muncul');
+                        }
+                        timerSemut = null;
+                    }, delaySemut);
+                }
+            }
+        };
+
+        // === LOGIKA CERITA ===
+        let nodeSaatIni = 'pembuka';
+        let timerPilihan = null;
+        let timerSemut = null;
+        let renderToken = 0;
+        const areaTeks = document.getElementById('area-teks');
+        const areaPilihan = document.getElementById('area-pilihan');
+
+        function hentikanSemut() {
+            if (timerSemut) {
+                clearTimeout(timerSemut);
+                timerSemut = null;
+            }
+            const semut = document.getElementById('semut-titik');
+            if (semut) {
+                semut.classList.remove('muncul');
+            }
+        }
+        
+        function posisiSemut(x, y) {
+    const semut = document.getElementById('semut-titik');
+
+    semut.style.right = `${x}px`;
+    semut.style.bottom = `${y}px`;
+}
+
+        function scrollKeCerita() {
+            const kontainer = document.getElementById('kontainer-cerita');
+            const rect = kontainer.getBoundingClientRect();
+            
+            // Hanya scroll jika kontainer berada di luar area baca
+            if (rect.top < 0 || rect.top > window.innerHeight * 0.4) {
+                kontainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        async function renderNode(nodeId) {
+            const token = ++renderToken;
+
+            if (timerPilihan) {
+                clearTimeout(timerPilihan);
+                timerPilihan = null;
+            }
+
+            hentikanSemut();
+
+            const node = cerita[nodeId];
+            if (!node) return;
+
+            // Crossfade keluar
+            areaTeks.classList.add('fade-out');
+            areaPilihan.classList.add('fade-out');
+
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            if (token !== renderToken) return;
+
+            nodeSaatIni = nodeId;
+            areaTeks.innerHTML = '';
+            areaPilihan.innerHTML = '';
+            areaPilihan.classList.remove('menunggu');
+
+            if (nodeId !== 'hari-kedua') {
+                document.body.classList.remove('state-pagi');
+            }
+
+            // Jalankan efek masuk node
+            if (node.masuk) {
+                node.masuk();
+            }
+
+            const teks = typeof node.teks === 'function' ? node.teks() : node.teks;
+
+            let delayKumulatif = 0;
+
+            teks.forEach((item) => {
+                if (item && item.tipe === 'jeda') {
+                    const jedaDiv = document.createElement('div');
+                    jedaDiv.className = 'jeda';
+                    
+                    if (item.level === 'normal') {
+                        jedaDiv.classList.add('jeda-normal');
+                        delayKumulatif += 0.12;
+                    } else if (item.level === 'panjang') {
+                        jedaDiv.classList.add('jeda-panjang');
+                        delayKumulatif += 0.18;
+                    } else if (item.level === 'dramatis') {
+                        jedaDiv.classList.add('jeda-dramatis');
+                        delayKumulatif += 0.30;
+                    }
+                    
+                    jedaDiv.style.animationDelay = `${delayKumulatif}s`;
+                    areaTeks.appendChild(jedaDiv);
+                } else if (item && item.tipe === 'penting') {
+                    const p = document.createElement('p');
+                    p.className = 'teks-narasi penting';
+                    p.textContent = item.teks;
+                    p.style.animationDelay = `${delayKumulatif}s`;
+                    areaTeks.appendChild(p);
+                    delayKumulatif += 0.20;
+                } else {
+                    const p = document.createElement('p');
+                    p.className = 'teks-narasi';
+                    p.textContent = item;
+                    p.style.animationDelay = `${delayKumulatif}s`;
+                    areaTeks.appendChild(p);
+                    delayKumulatif += 0.12;
+                }
+            });
+
+            // Crossfade masuk
+            areaTeks.classList.remove('fade-out');
+            areaPilihan.classList.remove('fade-out');
+
+            // Panggil setelahRender SEBELUM timer pilihan
+            if (node.setelahRender) {
+                node.setelahRender(delayKumulatif);
+            }
+
+            // Tampilkan indikator menunggu
+            areaPilihan.classList.add('menunggu');
+
+            // Scroll ke kontainer jika perlu
+            scrollKeCerita();
+
+            // Pindahkan fokus ke area teks (untuk aksesibilitas)
+            if (document.activeElement === document.body) {
+                areaTeks.focus({ preventScroll: true });
+            }
+
+            const delayPilihan = 0.6 + delayKumulatif * 0.6;
+            timerPilihan = setTimeout(() => {
+                if (token !== renderToken) return;
+
+                areaPilihan.classList.remove('menunggu');
+
+                const pilihan = typeof node.pilihan === 'function' ? node.pilihan() : node.pilihan;
+
+                pilihan.forEach((pil) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'pilihan';
+                    
+                    if (pil.kelasKhusus) {
+                        btn.classList.add('pilihan-khusus');
+                    }
+
+                    if (pil.pertama) {
+                        btn.classList.add('pertama');
+                    }
+
+                    btn.textContent = pil.teks;
+
+                    btn.addEventListener('click', () => {
+                        if (pil.tema && pil.tema !== null) {
+                            stateCerita.pilihan.push(pil.tema);
+                            stateCerita.urutan.push(pil.tema);
+                        }
+
+                        if (pil.targetId === null) {
+                            areaPilihan.innerHTML = '';
+                            
+                            const tamat = document.createElement('p');
+                            tamat.className = 'tamat';
+                            tamat.textContent = '— tamat —';
+                            areaPilihan.appendChild(tamat);
+
+                            const navBawah = document.createElement('div');
+                            navBawah.className = 'navigasi-bawah';
+                            
+                            const tombolKembali = document.createElement('button');
+                            tombolKembali.textContent = 'mulai lagi';
+                            tombolKembali.addEventListener('click', () => {
+                                resetState();
+                                document.body.classList.remove('state-pagi');
+                                hentikanSemut();
+                                renderNode('pembuka');
+                            });
+                            
+                            navBawah.appendChild(tombolKembali);
+                            areaPilihan.appendChild(navBawah);
+
+                            hentikanSemut();
+                        } else {
+                            renderNode(pil.targetId);
+                        }
+                    });
+
+                    areaPilihan.appendChild(btn);
+                });
+
+                timerPilihan = null;
+            }, delayPilihan * 1000);
+        }
+
+        renderNode('pembuka');
+    </script>
+</body>
+</html>
