@@ -303,10 +303,10 @@ body.state-pagi {
 }
 
 #area-teks.fade-out,
-#area-teks.fade-out {
+#area-pilihan.fade-out {
     opacity: 0;
     transform: translateY(8px);
-    filter: blur(3px);
+    filter: blur(0.5px);
 }
 
 /* =============================================================
@@ -1058,7 +1058,7 @@ body:not(.state-pagi)::before {
                                 jedaNormal(),
                                 "Barisan itu terus berjalan.",
                                 jedaNormal(),
-                                "Arau aku salah menghitung?"
+                                "Atau aku salah menghitung?"
                             );
                         } else if (punyaPengamatan(PENGAMATAN.KESERUPAAN)) {
                             teks.push(
@@ -1141,7 +1141,7 @@ body:not(.state-pagi)::before {
                         if (punyaPengamatan(PENGAMATAN.KECIL_DI_TENGAH)) {
                             teks.push(
                                 jedaNormal(),
-                                "Semmut paling kecil itu tak keluar dari barisan.",
+                                "Semut paling kecil itu tak keluar dari barisan.",
                                 "Ia tetap di sana."
                             );
                         }
